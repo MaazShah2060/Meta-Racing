@@ -18,6 +18,9 @@ class Circuit {
         // number of visible segments to be drawn
         this.visible_segments = 200;
 
+        // number of segments that forms a rumble strip
+        this.rumble_segments = 5;
+
         // road width (actually half of the road)
         this.roadWidth = 1000;
 
@@ -65,8 +68,8 @@ class Circuit {
     createSegment() {
         // define colors
         const COLORS = {
-            LIGHT: { road: '0x888888', grass: '0x429352' },
-            DARK: { road: '0x666666', grass: '0x397d46' }
+            LIGHT: { road: '0x888888', grass: '0x429352', rumble: '0xb8312e' },
+            DARK: { road: '0x666666', grass: '0x397d46', rumble: '0xDDDDDD' }
         }
         // get the current number of segments
         var n = this.segments.length;
@@ -79,7 +82,7 @@ class Circuit {
                 screen: { x: 0, y: 0, z: 0 },
                 scale: -1
             },
-            color: Math.floor(n / 5) % 2 ? COLORS.DARK : COLORS.LIGHT
+            color: Math.floor(n / this.rumble_segments) % 2 ? COLORS.DARK : COLORS.LIGHT
         });
     }
 
@@ -163,6 +166,12 @@ class Circuit {
 
         // draw road
         this.drawPolygon(x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
+
+        // draw rumble strips
+        var rumble_w1 = w1/5;
+        var rumble_w2 = w2/5;
+        this.drawPolygon(x1-w1-rumble_w1, y1, x1-w1, y1, x2-w2, y2, x2-w2-rumble_w2, y2, color.rumble);
+        this.drawPolygon(x1+w1+rumble_w1, y1, x1+w1, y1, x2+w2, y2, x2+w2+rumble_w2, y2, color.rumble);
     }
 
     /**
