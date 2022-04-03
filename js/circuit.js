@@ -63,6 +63,11 @@ class Circuit {
      * Creates a new segment
      */
     createSegment() {
+        // define colors
+        const COLORS = {
+            LIGHT: { road: '0x888888', grass: '0x429352' },
+            DARK: { road: '0x666666', grass: '0x397d46' }
+        }
         // get the current number of segments
         var n = this.segments.length;
 
@@ -74,7 +79,7 @@ class Circuit {
                 screen: { x: 0, y: 0, z: 0 },
                 scale: -1
             },
-            color: { road: '0x888888' }
+            color: Math.floor(n / 5) % 2 ? COLORS.DARK : COLORS.LIGHT
         });
     }
 
@@ -152,6 +157,11 @@ class Circuit {
      * Draws a Segment
      */
     drawSegment(x1, y1, w1, x2, y2, w2, color) {
+        // draw grass
+        this.graphics.fillStyle(color.grass, 1);
+        this.graphics.fillRect(0, y2, SCREEN_W, y1 - y2);
+
+        // draw road
         this.drawPolygon(x1 - w1, y1, x1 + w1, y1, x2 + w2, y2, x2 - w2, y2, color.road);
     }
 
