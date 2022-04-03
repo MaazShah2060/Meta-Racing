@@ -48,6 +48,7 @@ class MainScene extends Phaser.Scene {
 
         // instances
         this.circuit = new Circuit(this);
+        this.camera = new Camera(this);
         this.settings = new Settings(this);
         
         // listener to pause game
@@ -70,6 +71,7 @@ class MainScene extends Phaser.Scene {
         switch(state){
             case STATE_INIT:
                 console.log("Init game.");
+                this.camera.init();
                 state = STATE_RESTART;
                 break;
 
@@ -81,7 +83,8 @@ class MainScene extends Phaser.Scene {
 
             case STATE_PLAY:
                 console.log("Playing game.");
-                this.circuit.reder2D();
+                this.camera.update();
+                this.circuit.render3D();
                 state = STATE_GAMEOVER;
                 break;
 
