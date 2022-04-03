@@ -12,8 +12,17 @@ class Circuit {
         // single segment length
         this.segmentLength = 100;
 
+        // total number of road segments
+        this.total_segments = null;
+
+        // number of visible segments to be drawn
+        this.visible_segments = 200;
+
         // road width (actually half of the road)
         this.roadWidth = 1000;
+
+        // total road length
+        this.roadLength = null;
     }
 
     /**
@@ -25,13 +34,19 @@ class Circuit {
 
         // create a road
         this.createRoad();
+
+        // store the total number of segments
+        this.total_segments = this.segments.length;
+
+        // calculate the road length
+        this.roadLength = this.total_segments * this.segmentLength;
     }
 
     /**
      * Creates a road
      */
     createRoad() {
-        this.createSection(10);
+        this.createSection(1000);
     }
 
     /**
@@ -41,7 +56,6 @@ class Circuit {
     createSection(nSegments) {
         for (var i = 0; i < nSegments; i++) {
             this.createSegment();
-            console.log("Created segment: ", this.segments[i]);
         }
     }
 
@@ -65,16 +79,25 @@ class Circuit {
     }
 
     /**
+     * Returns a segment at the given Z position
+     */
+    getSegment(positionZ) {
+        if (positionZ < 0) positionZ += this.roadLength;
+        var index = Math.floor(positionZ / this.segmentLength) % this.total_segments;
+        return this.segments[index];
+    }
+
+    /**
      * Projects a point from its world coordinates to screen coordinates to screen coordinates (2D view)
      */
-    project3D(point, cameraX, cameraY, cameraZ, cameraDepth){
+    project3D(point, cameraX, cameraY, cameraZ, cameraDepth) {
         // translating world coordinates to camera coordinates
         var transX = point.world.x - cameraX;
         var transY = point.world.y - cameraY;
         var transZ = point.world.z - cameraZ;
 
         // scaling factor based on the law of similar triangles
-        point.scale = cameraDepth/transZ;
+        point.scale = cameraDepth / transZ;
 
         // projecting camera coordinates onto a normalized projection plane
         var projectedX = point.scale * transX;
@@ -96,24 +119,33 @@ class Circuit {
         // get the camera
         var camera = this.scene.camera;
 
-        // get the current and previous segments
-        var currSegment = this.segments[1];
-        var prevSegment = this.segments[0];
+        // get the base segment
+        var baseSegment = this.getSegment(camera.z);
+        var baseIndex = baseSegment.index;
 
-        this.project3D(currSegment.point, camera.x, camera.y, camera.z, camera.distToPlane);
-        this.project3D(prevSegment.point, camera.x, camera.y, camera.z, camera.distToPlane);
+        for (var n = 0; n < this.visible_segments; n++) {
 
-        var p1 = prevSegment.point.screen;
-        var p2 = currSegment.point.screen;
+            // get the current segment
+            var currIndex = (baseIndex + n) % this.total_segments;
+            var currSegment = this.segments[currIndex];
 
-        this.drawSegment(
-            p1.x, p1.y, p1.w,
-            p2.x, p2.y, p2.w,
-            currSegment.color
-        );
+            // project the segment to the screen space
+            this.project3D(currSegment.point, camera.x, camera.y, camera.z, camera.distToPlane);
 
-        // console.log("Prev Segment: ", p1);
-        // console.log("Curr Segment: ", p2);
+            if (n > 0) {
+                var prevIndex = (currIndex > 0) ? currIndex - 1 : this.total_segments - 1;
+                var prevSegment = this.segments[prevIndex];
+
+                var p1 = prevSegment.point.screen;
+                var p2 = currSegment.point.screen;
+
+                this.drawSegment(
+                    p1.x, p1.y, p1.w,
+                    p2.x, p2.y, p2.w,
+                    currSegment.color
+                );
+            }
+        }
     }
 
     /**
@@ -126,7 +158,7 @@ class Circuit {
     /**
      * Draws a Polygon defined with four points and color
      */
-    drawPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color){
+    drawPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
         this.graphics.fillStyle(color, 1);
         this.graphics.beginPath();
 
