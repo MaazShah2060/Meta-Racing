@@ -25,7 +25,7 @@ class Camera {
     /**
      * Updates camera position
      */
-    update(){
+    update() {
         // place the camera behind the player at a desired distance
         this.z = -this.distToPlayer;
     }

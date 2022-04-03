@@ -35,14 +35,14 @@ class MainScene extends Phaser.Scene {
     /**
      * Loads all assets.
      */
-    preload(){
+    preload() {
         this.load.image('imgBack', '../assets/img_back.png');
     }
 
     /**
      * Create all objects
      */
-    create(){
+    create() {
         // backgrounds
         this.sprBack = this.add.image(SCREEN_CX, SCREEN_CY, 'imgBack');
 
@@ -50,16 +50,16 @@ class MainScene extends Phaser.Scene {
         this.circuit = new Circuit(this);
         this.camera = new Camera(this);
         this.settings = new Settings(this);
-        
+
         // listener to pause game
-        this.input.keyboard.on('keydown-P', function(){
+        this.input.keyboard.on('keydown-P', function () {
             this.settings.txtPause.text = "[P] Resume";
             this.scene.pause();
             this.scene.launch('ScenePause');
         }, this);
 
         // listener on resume event
-        this.events.on('resume', function(){
+        this.events.on('resume', function () {
             this.settings.show();
         }, this);
     }
@@ -67,8 +67,8 @@ class MainScene extends Phaser.Scene {
     /**
      * Main Game Loop
      */
-    update(time, delta){
-        switch(state){
+    update(time, delta) {
+        switch (state) {
             case STATE_INIT:
                 this.camera.init();
                 state = STATE_RESTART;
@@ -99,9 +99,9 @@ class PauseScene extends Phaser.Scene {
         super({ key: 'ScenePause' })
     }
 
-    create(){
+    create() {
         // listener to resume game
-        this.input.keyboard.on('keydown-P', function(){
+        this.input.keyboard.on('keydown-P', function () {
             this.scene.resume('SceneMain');
             this.scene.stop();
         }, this);
