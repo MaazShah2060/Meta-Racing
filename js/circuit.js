@@ -133,6 +133,9 @@ class Circuit {
     render3D() {
         this.graphics.clear();
 
+        // define the clipping bottom line to render only segments above it
+        var clipBottomLine = SCREEN_H;
+
         // get the camera
         var camera = this.scene.camera;
 
@@ -149,7 +152,10 @@ class Circuit {
             // project the segment to the screen space
             this.project3D(currSegment.point, camera.x, camera.y, camera.z, camera.distToPlane);
 
-            if (n > 0) {
+            // draw this segment only if it is above the clipping bottom
+            var currBottomLine = currSegment.point.screen.y;
+
+            if (n > 0 && currBottomLine < clipBottomLine) {
                 var prevIndex = (currIndex > 0) ? currIndex - 1 : this.total_segments - 1;
                 var prevSegment = this.segments[prevIndex];
 
@@ -161,6 +167,9 @@ class Circuit {
                     p2.x, p2.y, p2.w,
                     currSegment.color
                 );
+
+                // move the clipping bottom line up
+                clipBottomLine = currBottomLine;
             }
         }
     }
