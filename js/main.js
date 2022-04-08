@@ -16,6 +16,9 @@ const STATE_RESTART = 2;
 const STATE_PLAY = 3;
 const STATE_GAMEOVER = 4;
 
+//sprites
+const PLAYER = 0;
+
 //------------------------------------------------------------------------------------------------------
 // Global Variables
 //------------------------------------------------------------------------------------------------------
@@ -37,6 +40,7 @@ class MainScene extends Phaser.Scene {
      */
     preload() {
         this.load.image('imgBack', '../assets/img_back.png');
+        this.load.image('imgPlayer', '../assets/vehicle/subaru_impreza_wrx.png');
     }
 
     /**
@@ -45,6 +49,11 @@ class MainScene extends Phaser.Scene {
     create() {
         // backgrounds
         this.sprBack = this.add.image(SCREEN_CX, SCREEN_CY, 'imgBack');
+
+        // array of sprites that will be "manually" drawn on a rendering texture
+        this.sprites = [
+            this.add.image(0, 0, 'imgPlayer').setVisible(false)
+        ];
 
         // instances
         this.circuit = new Circuit(this);
@@ -72,6 +81,7 @@ class MainScene extends Phaser.Scene {
         switch (state) {
             case STATE_INIT:
                 this.camera.init();
+                this.player.init();
                 state = STATE_RESTART;
                 break;
 

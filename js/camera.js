@@ -34,5 +34,8 @@ class Camera {
         
         // place the camera behind the player at a desired distance
         this.z = player.z - this.distToPlayer;
+
+        // don't let camera Z to go negative
+        if (this.z<0) this.z += circuit.roadLength;
     }
 }

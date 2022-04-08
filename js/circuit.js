@@ -6,6 +6,9 @@ class Circuit {
         // graphics to draw the road polygons on it
         this.graphics = scene.add.graphics(0, 0);
 
+        // texture to draw the sprites on it
+        this.texture = scene.add.renderTexture(0, 0, SCREEN_W, SCREEN_H);
+
         // array of road segments
         this.segments = [];
 
@@ -58,7 +61,7 @@ class Circuit {
      * Creates a road
      */
     createRoad() {
-        this.createSection(1000);
+        this.createSection(300 );
     }
 
     /**
@@ -149,8 +152,10 @@ class Circuit {
             var currIndex = (baseIndex + n) % this.total_segments;
             var currSegment = this.segments[currIndex];
 
+            // get the camera offset-Z to loop back the road
+            var offsetZ = (currIndex < baseIndex) ? this.roadLength : 0;
             // project the segment to the screen space
-            this.project3D(currSegment.point, camera.x, camera.y, camera.z, camera.distToPlane);
+            this.project3D(currSegment.point, camera.x, camera.y, camera.z-offsetZ, camera.distToPlane);
 
             // draw this segment only if it is above the clipping bottom
             var currBottomLine = currSegment.point.screen.y;
@@ -172,6 +177,13 @@ class Circuit {
                 clipBottomLine = currBottomLine;
             }
         }
+
+        // draw all the visible objects on the rendering texture
+        this.texture.clear();
+
+        // draw player
+        var player = this.scene.player;
+        this.texture.draw(player.sprite, player.screen.x, player.screen.y);
     }
 
     /**
