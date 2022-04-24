@@ -1,70 +1,115 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 
 <html>
+
 <head>
   <title>Meta Racing</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <link href="common.css" rel="stylesheet" type="text/css" />
-</head> 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
 
-<body> 
-
-  <table id="controls">
-    <tr><td id="fps" colspan="2" align="right"></td></tr>
-    <tr>
-      <th><label for="resolution">Resolution :</label></th>
-      <td>
-        <select id="resolution" style="width:100%">
-          <option value='fine'>Fine (1280x960)</option>
-          <option selected value='high'>High (1024x768)</option>
-          <option value='medium'>Medium (640x480)</option>
-          <option value='low'>Low (480x360)</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <th><label for="lanes">Lanes :</label></th>
-      <td>
-        <select id="lanes">
-          <option>1</option>
-          <option>2</option>
-          <option selected>3</option>
-          <option>4</option>
-        </select>
-      </td>
-    </tr>
-    <tr>
-      <th><label for="roadWidth">Road Width (<span id="currentRoadWidth"></span>) :</label></th>
-      <td><input id="roadWidth" type='range' min='500' max='3000' title="integer (500-3000)"></td>
-    </tr>
-    <tr>
-      <th><label for="cameraHeight">CameraHeight (<span id="currentCameraHeight"></span>) :</label></th>
-      <td><input id="cameraHeight" type='range' min='500' max='5000' title="integer (500-5000)"></td>
-    </tr>
-    <tr>
-      <th><label for="drawDistance">Draw Distance (<span id="currentDrawDistance"></span>) :</label></th>
-      <td><input id="drawDistance" type='range' min='100' max='500' title="integer (100-500)"></td>
-    </tr>
-    <tr>
-      <th><label for="fieldOfView">Field of View (<span id="currentFieldOfView"></span>) :</label></th>
-      <td><input id="fieldOfView" type='range' min='80' max='140' title="integer (80-140)"></td>
-    </tr>
-    <tr>
-      <th><label for="fogDensity">Fog Density (<span id="currentFogDensity"></span>) :</label></th>
-      <td><input id="fogDensity" type='range' min='0' max='50' title="integer (0-50)"></td>
-    </tr>
-  </table>
-
-  <div id='instructions'>
-    <p>Use the <b>arrow keys</b> to drive the car.</p>
-  </div>
-
+<body>
   <div id="racer">
     <div id="hud">
-      <span id="speed"            class="hud"><span id="speed_value" class="value">0</span> mph</span>
-      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span> 
-      <span id="last_lap_time"    class="hud">Last Lap: <span id="last_lap_time_value" class="value">0.0</span></span>
-      <span id="fast_lap_time"    class="hud">Fastest Lap: <span id="fast_lap_time_value" class="value">0.0</span></span>
+      <span id="speed" class="hud"><span id="speed_value" class="value">0</span> mph</span>
+      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span>
+      <span id="last_lap_time" class="hud">Last Lap: <span id="last_lap_time_value" class="value">0.0</span></span>
+      <span id="fast_lap_time" class="hud">Fastest Lap: <span id="fast_lap_time_value" class="value">0.0</span></span><br>
+      <button type="button" data-toggle="modal" data-target="#settingsModal" class="settings btn btn-primary ml-1"><small>Settings</small></button>
+      <button type="button" data-toggle="modal" data-target="#instructionsModal" class="instructions btn btn-secondary"><small>Instructions</small></button>
+    </div>
+    <div class="modal fade" id="settingsModal" tabindex="-1" role="dialog" aria-labelledby="settingsModalLabel" aria-hidden="true" data-backdrop="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Settings</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <table id="controls">
+              <tr>
+                <td id="fps" colspan="2" align="right"></td>
+              </tr>
+              <tr>
+                <th><label for="resolution">Resolution :</label></th>
+                <td>
+                  <select id="resolution" style="width:100%">
+                    <option value='fine'>Fine (1280x960)</option>
+                    <option selected value='high'>High (1024x768)</option>
+                    <option value='medium'>Medium (640x480)</option>
+                    <option value='low'>Low (480x360)</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th><label for="lanes">Lanes :</label></th>
+                <td>
+                  <select id="lanes">
+                    <option>1</option>
+                    <option>2</option>
+                    <option selected>3</option>
+                    <option>4</option>
+                  </select>
+                </td>
+              </tr>
+              <tr>
+                <th><label for="roadWidth">Road Width (<span id="currentRoadWidth"></span>) :</label></th>
+                <td><input id="roadWidth" type='range' min='500' max='3000' title="integer (500-3000)"></td>
+              </tr>
+              <tr>
+                <th><label for="cameraHeight">CameraHeight (<span id="currentCameraHeight"></span>) :</label></th>
+                <td><input id="cameraHeight" type='range' min='500' max='5000' title="integer (500-5000)"></td>
+              </tr>
+              <tr>
+                <th><label for="drawDistance">Draw Distance (<span id="currentDrawDistance"></span>) :</label></th>
+                <td><input id="drawDistance" type='range' min='100' max='500' title="integer (100-500)"></td>
+              </tr>
+              <tr>
+                <th><label for="fieldOfView">Field of View (<span id="currentFieldOfView"></span>) :</label></th>
+                <td><input id="fieldOfView" type='range' min='80' max='140' title="integer (80-140)"></td>
+              </tr>
+              <tr>
+                <th><label for="fogDensity">Fog Density (<span id="currentFogDensity"></span>) :</label></th>
+                <td><input id="fogDensity" type='range' min='0' max='50' title="integer (0-50)"></td>
+              </tr>
+              <tr>
+                <td><audio id='music'>
+                  <source src="music/racer.ogg">
+                  <source src="music/racer.mp3">
+                </audio>
+                <span id="mute"></span></th>
+              </tr>
+            </table>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="instructionsModal" tabindex="-1" role="dialog" aria-labelledby="instructionsModalLabel" aria-hidden="true" data-backdrop="false">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Instructions</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id='instructions'>
+              <p>Use the <b>arrow keys</b> to drive the car.</p>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
     </div>
     <canvas id="canvas">
       Sorry, this example cannot be run because your browser does not support the &lt;canvas&gt; element
@@ -72,15 +117,18 @@
     Loading...
   </div>
 
-  <audio id='music'>
-    <source src="music/racer.ogg">
-    <source src="music/racer.mp3">
-  </audio>
-  <span id="mute"></span>
-
   <script src="./js/stats.js"></script>
   <script src="./js/common.js"></script>
   <script src="./js/main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+    crossorigin="anonymous"></script>
+</body>
 
-</body> 
 </html>
