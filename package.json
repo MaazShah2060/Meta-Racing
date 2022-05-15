@@ -1,0 +1,22 @@
+{
+  "name": "meta-racing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaazShah2060/Meta-Racing.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaazShah2060/Meta-Racing/issues"
+  },
+  "homepage": "https://github.com/MaazShah2060/Meta-Racing#readme",
+  "dependencies": {
+    "web3": "^1.7.3"
+  }
+}
