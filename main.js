@@ -1,3 +1,6 @@
+// var Stats = require("./js/stats.js")
+var Game = require("./js/common.js")
+
 var fps            = 60;                      // how many 'update' frames per second
 var step           = 1/fps;                   // how long is each frame (in seconds)
 var width          = 1024;                    // logical canvas width
@@ -143,7 +146,7 @@ function update(dt) {
     }
   }
 
-  updateHud('speed',            5 * Math.round(speed/500));
+  updateHud('speed', 5 * Math.round(speed/500));
   updateHud('current_lap_time', formatTime(currentLapTime));
 }
 
