@@ -180,6 +180,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
     var result = new Stats();
     result.domElement.id = id || 'stats';
+    console.log(Dom)
     Dom.get(parentId).appendChild(result.domElement);
 
     var msg = document.createElement('div');
@@ -413,4 +414,4 @@ SPRITES.BILLBOARDS = [SPRITES.BILLBOARD01, SPRITES.BILLBOARD02, SPRITES.BILLBOAR
 SPRITES.PLANTS     = [SPRITES.TREE1, SPRITES.TREE2, SPRITES.DEAD_TREE1, SPRITES.DEAD_TREE2, SPRITES.PALM_TREE, SPRITES.BUSH1, SPRITES.BUSH2, SPRITES.CACTUS, SPRITES.STUMP, SPRITES.BOULDER1, SPRITES.BOULDER2, SPRITES.BOULDER3];
 SPRITES.CARS       = [SPRITES.CAR01, SPRITES.CAR02, SPRITES.CAR03, SPRITES.CAR04, SPRITES.SEMI, SPRITES.TRUCK];
 
-module.exports = Game
+module.exports = {Game, Dom, KEY, Util, COLORS, SPRITES, Render, BACKGROUND}

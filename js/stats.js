@@ -3,6 +3,7 @@
  */
 
 const Web3 = require("web3")
+const MemoryToken = require('./abis/MemoryToken.json')
 
 
 var Stats = function () {
@@ -17,12 +18,15 @@ var Stats = function () {
   else {
     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
   }
+
+
   var startTime = Date.now(), prevTime = startTime;
   var ms = 0, msMin = 1000, msMax = 0;
   var fps = 0, fpsMin = 1000, fpsMax = 0;
   var frames = 0, mode = 0;mode
   var container = document.createElement( 'div' );
   container.id = 'stats';
+  console.log(document.getElementById('stats'))
   container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ) }, false );
   container.style.cssText = 'width:80px;opacity:0.9;cursor:pointer';
 
@@ -74,6 +78,37 @@ var Stats = function () {
 
   }
 
+
+  var loadBlockchainData = async function() {
+    const web3 = window.web3
+    const accounts = await web3.eth.getAccounts()
+    // this.setState({ account: accounts[0] })
+
+    // Load smart contract
+    const networkId = await web3.eth.net.getId()
+    const networkData = MemoryToken.networks[networkId]
+    if(networkData) {
+      const abi = MemoryToken.abi
+      const address = networkData.address
+      const token = new web3.eth.Contract(abi, address)
+      // this.setState({ token })
+      const totalSupply = await token.methods.totalSupply().call()
+      // this.setState({ totalSupply })
+      // Load Tokens
+      let balanceOf = await token.methods.balanceOf(accounts[0]).call()
+      for (let i = 0; i < balanceOf; i++) {
+        let id = await token.methods.tokenOfOwnerByIndex(accounts[0], i).call()
+        let tokenURI = await token.methods.tokenURI(id).call()
+        this.setState({
+          tokenURIs: [...this.state.tokenURIs, tokenURI]
+        })
+      }
+    } else {
+      alert('Smart contract not deployed to detected network.')
+    }
+  }
+
+
   var setMode = function ( value ) {
 
     mode = value;
@@ -104,6 +139,7 @@ var Stats = function () {
     domElement: container,
 
     setMode: setMode,
+    loadBlockchainData: loadBlockchainData,
 
     current: function() { return fps; },
 

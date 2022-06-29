@@ -1,5 +1,5 @@
 // var Stats = require("./js/stats.js")
-var Game = require("./js/common.js")
+var {Game, Dom, KEY, Util, COLORS, SPRITES, Render, BACKGROUND} = require("./js/common.js")
 
 var fps            = 60;                      // how many 'update' frames per second
 var step           = 1/fps;                   // how long is each frame (in seconds)
