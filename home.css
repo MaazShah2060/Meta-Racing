@@ -1,0 +1,42 @@
+body{
+    background-color: #111926;
+}
+
+/* primary button */
+ .btn-primary {
+    background-color: #26ddf2;
+    color: #285e8e;
+    border-color: #111926;
+    font-weight: 600;
+}
+.btn-primary:hover {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
+
+.btn-primary:focus {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
+
+.btn-primary:active    {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
+
+.text1, .text2 {
+    color: #fff;
+    font-weight: 400;
+}
+
+.text1 {
+    font-size: 70px;
+}
+
+.container {
+    align-items: center;
+    margin-top: 130px;
+}
