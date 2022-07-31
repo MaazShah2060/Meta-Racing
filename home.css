@@ -57,3 +57,33 @@
     margin-left: 210px;
     margin-top: 20px;
 }
+
+#playDrop {
+    margin-left: 200px;
+    margin-top: 20px;
+}
+
+.btn-secondary {
+    background-color: #26ddf2;
+    color: #285e8e;
+    border-color: #111926;
+    font-weight: 600;
+    align-self: center;
+}
+.btn-secondary:hover {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
+
+.btn-secondary:focus {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
+
+.btn-secondary:active    {
+    background-color: #26ddf2;
+    color: #111926;
+    border-color: #26ddf2;
+}
