@@ -1693,7 +1693,7 @@ module.exports={
         }
       },
       "links": {},
-      "address": "0x955D6F5DD814d1AFa0bC6845022cA8caA30e7df9",
+      "address": "0x646698d2bd5bF9e5dC0C58939A27DaA82aeC7040",
       "transactionHash": "0x208fa1be81738497fc1b31dfe766351558d5821fa66d3fa1258399a573449a71"
     }
   },
@@ -1956,7 +1956,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
   loadImages: function(names, callback) { // load multiple images and callback when ALL images have loaded
     var result = [];
     var count  = names.length;
-    console.log(names);
+
     var onload = function() {
       if (--count == 0)
         callback(result);
@@ -2238,9 +2238,9 @@ module.exports = {Game, Dom, KEY, Util, COLORS, SPRITES, Render, BACKGROUND}
 const Web3 = require("web3")
 const MemoryToken = require('./abis/MemoryToken.json')
 
+var tokenURIArr = []
 
 var Stats = function () {
-
   if (window.ethereum) {
     window.web3 = new Web3(window.ethereum)
      window.ethereum.enable()
@@ -2251,7 +2251,9 @@ var Stats = function () {
   else {
     window.alert('Non-Ethereum browser detected. You should consider trying MetaMask!')
   }
-
+  document.addEventListener('DOMContentLoaded', function () {
+    loadBlockchainData();
+  }, false);
 
   var startTime = Date.now(), prevTime = startTime;
   var ms = 0, msMin = 1000, msMax = 0;
@@ -2259,8 +2261,12 @@ var Stats = function () {
   var frames = 0, mode = 0;mode
   var container = document.createElement( 'div' );
   container.id = 'stats';
-  console.log(document.getElementById('stats'))
+  console.log('se', document.getElementById('stats'))
   container.addEventListener( 'mousedown', function ( event ) { event.preventDefault(); setMode( ++ mode % 2 ) }, false );
+
+
+   
+
   container.style.cssText = 'width:80px;opacity:0.9;cursor:pointer';
 
   var fpsDiv = document.createElement( 'div' );
@@ -2311,7 +2317,6 @@ var Stats = function () {
 
   }
 
-
   var loadBlockchainData = async function() {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
@@ -2331,20 +2336,25 @@ var Stats = function () {
       let balanceOf = await token.methods.balanceOf(accounts[0]).call()
       for (let i = 0; i < balanceOf; i++) {
         let id = await token.methods.tokenOfOwnerByIndex(accounts[0], i).call()
-        let tokenURI = await token.methods.tokenURI(id).call()
-        this.setState({
-          tokenURIs: [...this.state.tokenURIs, tokenURI]
-        })
+       
+        var tokenURI = await token.methods.tokenURI(id).call()
+        tokenURIArr.push(tokenURI)
+        console.log('tokens', tokenURIArr)
       }
+      var html='';
+      for (let i=0; i<=tokenURIArr.length-1; i++) {
+          html+='<a class="dropdown-item"><img src = '+ tokenURIArr[i] + ' width="80" height="60">'+tokenURIArr[i]+'</a>';
+      }
+      document.getElementById('select-token').innerHTML+= html;
     } else {
-      alert('Smart contract not deployed to detected network.')
+      window.alert('Smart contract not deployed to detected network.')
     }
   }
 
 
   var setMode = function ( value ) {
-
     mode = value;
+    window.alert('hello')
 
     switch ( mode ) {
 
@@ -2569,7 +2579,6 @@ function update(dt) {
       }
       updateHud('last_lap_time', formatTime(lastLapTime));
       Dom.show('last_lap_time');
-      console.log("hehe");
     }
     else {
       currentLapTime += dt;
@@ -2577,7 +2586,7 @@ function update(dt) {
   }
 
   updateHud('speed', 5 * Math.round(speed/500));
-  updateHud('current_lap_time', formatTime(currentLapTime));
+  updateHud('current_lap_time', formatTime(currentLapTime));  
 }
 
 //-------------------------------------------------------------------------
