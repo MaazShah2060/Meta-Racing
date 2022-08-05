@@ -1956,7 +1956,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
   loadImages: function(names, callback) { // load multiple images and callback when ALL images have loaded
     var result = [];
     var count  = names.length;
-
+    console.log(names);
     var onload = function() {
       if (--count == 0)
         callback(result);
@@ -2569,6 +2569,7 @@ function update(dt) {
       }
       updateHud('last_lap_time', formatTime(lastLapTime));
       Dom.show('last_lap_time');
+      console.log("hehe");
     }
     else {
       currentLapTime += dt;
