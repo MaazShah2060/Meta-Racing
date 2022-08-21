@@ -141,11 +141,26 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js"
     integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
     crossorigin="anonymous"></script>
-    <!-- <script>
-      $('.token-class').click(function(){
-        console.log("tokenImage", this.id);
-      })
-    </script> -->
+    <script>
+      
+
+      // $('.token-class').click(function(){
+      //   console.log("tokenImage", this.id);
+      // })
+      function clickToken(item, fs){
+
+        // fs = JSON.parse(fs);
+        fs.unlink('./images/sprites.png');
+        fs.copyFile('./'+item, './images/sprites.png', (err) => {
+          if (err) throw err;
+          console.log('File was copied to destination');
+        });
+        console.log("fs", fs);
+        console.log("item", item);
+
+      }
+    </script>
+
 </body>
 
 </html>
