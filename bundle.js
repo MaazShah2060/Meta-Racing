@@ -2343,7 +2343,7 @@ var Stats = function () {
       }
       var html='';
       for (let i=0; i<=tokenURIArr.length-1; i++) {
-          html+='<a class="dropdown-item"><img src = '+ tokenURIArr[i] + ' width="80" height="60">'+tokenURIArr[i]+'</a>';
+          html+='<a class="dropdown-item" onclick=clickToken('+tokenURIArr[i] +')"><img src = '+ tokenURIArr[i] + ' width="80" height="60">'+tokenURIArr[i]+'</a>';
       }
       document.getElementById('select-token').innerHTML+= html;
     } else {
@@ -2368,6 +2368,10 @@ var Stats = function () {
         break;
     }
 
+  }
+
+  var clickToken = function(item){
+    console.log("item", item);
   }
 
   var updateGraph = function ( dom, value ) {
