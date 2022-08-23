@@ -147,15 +147,9 @@
       // $('.token-class').click(function(){
       //   console.log("tokenImage", this.id);
       // })
-      function clickToken(item, fs){
-
-        // fs = JSON.parse(fs);
-        fs.unlink('./images/sprites.png');
-        fs.copyFile('./'+item, './images/sprites.png', (err) => {
-          if (err) throw err;
-          console.log('File was copied to destination');
-        });
-        console.log("fs", fs);
+      function clickToken(item){
+        item = item.replace('/images/','');
+        window.location.replace("./manage.php?item="+item);
         console.log("item", item);
 
       }

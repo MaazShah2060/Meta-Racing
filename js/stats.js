@@ -4,7 +4,6 @@
 
 const Web3 = require("web3")
 const MemoryToken = require('./abis/MemoryToken.json')
-var fs = require('fs');
 var tokenURIArr = []
 
 var Stats = function () {
@@ -88,7 +87,6 @@ var Stats = function () {
     const web3 = window.web3
     const accounts = await web3.eth.getAccounts()
     // this.setState({ account: accounts[0] })
-    fs.unlink('./images/sprites.png');
     // Load smart contract
     const networkId = await web3.eth.net.getId()
     const networkData = MemoryToken.networks[networkId]
@@ -111,7 +109,7 @@ var Stats = function () {
       var html='';
       for (let i=0; i<=tokenURIArr.length-1; i++) {
         
-          html+='<a class="dropdown-item token-class" onclick=clickToken("'+tokenURIArr[i]+'",'+JSON.stringify(fs)+')><img src = '+ tokenURIArr[i] + ' width="80" height="60">'+tokenURIArr[i]+'</a>';
+          html+='<a class="dropdown-item token-class" onclick=clickToken("'+tokenURIArr[i]+'")><img src = '+ tokenURIArr[i] + ' width="80" height="60">'+tokenURIArr[i]+'</a>';
       }
       document.getElementById('select-token').innerHTML+= html;
       
